@@ -70,7 +70,8 @@ class HolfuyConfigFlowHandler(ConfigFlow, domain=DOMAIN):
         if user_input is not None:
             if user_input.get(CONF_STATION_ID) not in configured_instances(self.hass):
                 return self.async_create_entry(
-                    title=user_input[CONF_NAME], data=user_input
+                    title=f"Holfy API ({user_input[CONF_API_KEY][0:4]})",
+                    data=user_input,
                 )
             errors[CONF_NAME] = "already_configured"
 
