@@ -1,0 +1,11 @@
+{
+  "domain": "holfuy",
+  "name": "Holfuy Weather Stations",
+  "codeowners": ["@haavardj"],
+  "config_flow": true,
+  "documentation": "https://www.home-assistant.io/integrations/holfuy",
+  "iot_class": "cloud_polling",
+  "loggers": ["holfuy"],
+  "requirements": [],
+  "version": "0.0.1"
+}
