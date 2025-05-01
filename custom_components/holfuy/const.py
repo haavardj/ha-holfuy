@@ -1,4 +1,4 @@
-"""Constants for Met component."""
+"""Constants for Holfy component."""
 
 from datetime import timedelta  # noqa: I001
 from homeassistant.components.weather import (

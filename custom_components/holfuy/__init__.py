@@ -4,7 +4,7 @@ from __future__ import annotations  # noqa: I001
 
 import logging
 from .pyholfuy import HolfuyService
-from homeassistant.const import CONF_NAME, Platform
+from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers.aiohttp_client import async_get_clientsession

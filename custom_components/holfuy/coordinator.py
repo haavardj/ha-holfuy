@@ -1,13 +1,11 @@
-"""DataUpdateCoordinator for Met.no integration."""
+"""DataUpdateCoordinator for Holfuy integration."""
 
 from __future__ import annotations  # noqa: I001
 
 from asyncio import timeout
-from collections.abc import Callable, Mapping
 from dataclasses import dataclass
 from datetime import timedelta
 import logging
-from random import randrange
 from typing import TYPE_CHECKING, Any, Self
 
 import async_timeout
@@ -115,16 +113,3 @@ class HolfuyDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
             return station_id
 
         return self.data[station_id].get("Name", station_id)
-
-
-def _get_device_info(station_id: str, name: str) -> DeviceInfo:
-    """Device info."""
-
-    return DeviceInfo(
-        entry_type=DeviceEntryType.SERVICE,
-        identifiers={(DOMAIN, station_id)},  # type: ignore[arg-type]
-        manufacturer=MANUFACTURER,
-        model="Holfy API",
-        name=name,
-        configuration_url="https://www.hofluy.com",
-    )

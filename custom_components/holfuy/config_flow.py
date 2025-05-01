@@ -10,18 +10,11 @@ from homeassistant.config_entries import (
     ConfigEntry,
     ConfigFlow,
     ConfigFlowResult,
-    OptionsFlow,
 )
 from homeassistant.const import (
     CONF_NAME,
 )
 from homeassistant.core import HomeAssistant, callback
-from homeassistant.helpers import config_validation as cv
-from homeassistant.helpers.selector import (
-    NumberSelector,
-    NumberSelectorConfig,
-    NumberSelectorMode,
-)
 
 from .const import (
     CONF_STATION_ID,
@@ -80,35 +73,3 @@ class HolfuyConfigFlowHandler(ConfigFlow, domain=DOMAIN):
             data_schema=_get_data_schema(self.hass),
             errors=errors,
         )
-
-
-# @staticmethod
-# @callback
-# def async_get_options_flow(
-#     config_entry: ConfigEntry,
-# ) -> HolfuyOptionsFlowHandler:
-#     """Get the options flow for Holfuy."""
-#     return HolfuyOptionsFlowHandler()
-
-
-# class HolfuyOptionsFlowHandler(OptionsFlow):
-#     """Options flow for Holfuy component."""
-
-#     async def async_step_init(
-#         self, user_input: dict[str, Any] | None = None
-#     ) -> ConfigFlowResult:
-#         """Configure options for Holfuy."""
-
-#         if user_input is not None:
-#             # Update config entry with data from user input
-#             self.hass.config_entries.async_update_entry(
-#                 self.config_entry, data=user_input
-#             )
-#             return self.async_create_entry(
-#                 title=self.config_entry.title, data=user_input
-#             )
-
-#         return self.async_show_form(
-#             step_id="init",
-#             data_schema=OPTIONS_SCHEMA,
-#         )

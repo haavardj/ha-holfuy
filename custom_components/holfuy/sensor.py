@@ -29,7 +29,6 @@ from homeassistant.components.sensor import (
 
 
 from homeassistant.const import (
-    CONF_NAME,
     PERCENTAGE,
     UnitOfPressure,
     UnitOfSpeed,
@@ -39,10 +38,9 @@ from homeassistant.core import HomeAssistant, callback
 
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
-from homeassistant.util.unit_system import METRIC_SYSTEM
 from homeassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
 
-from .const import ATTRIBUTION, CONF_STATION_ID, MANUFACTURER, DOMAIN
+from .const import ATTRIBUTION, MANUFACTURER, DOMAIN
 from .coordinator import HolfuyDataUpdateCoordinator, HolfuyWeatherConfigEntry
 
 _LOGGER = logging.getLogger(__name__)
