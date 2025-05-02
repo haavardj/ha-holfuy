@@ -31,13 +31,16 @@ async def async_setup_entry(
     """Set up Holfuy as config entry."""
 
     api_key: str = config_entry.data[CONF_API_KEY]
-    name: str = hex(hash(api_key)).capitalize
 
     websession = async_get_clientsession(hass)
     holfuy = HolfuyService(api_key, websession)
 
     coordinator = HolfuyDataUpdateCoordinator(
-        hass, config_entry, holfuy, f"Holfuy {name}", UPDATE_INTERVAL_OBSERVATION
+        hass,
+        config_entry,
+        holfuy,
+        f"Holfuy API ({api_key[0:4]})",
+        UPDATE_INTERVAL_OBSERVATION,
     )
 
     await coordinator.async_config_entry_first_refresh()
