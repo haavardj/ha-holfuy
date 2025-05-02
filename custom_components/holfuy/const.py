@@ -12,14 +12,14 @@ from homeassistant.components.weather import (
 
 
 DOMAIN = "holfuy"
-MANUFACTURER = "dagenborg.net"
-ATTRIBUTION = "Weather observations from Holfuy.com by Dagenborg.net"
+MANUFACTURER = "Holfuy"
+ATTRIBUTION = "Weather stations from Holfuy.com by @haavardj"
 
 CONF_STATION_ID = "station_id"
 CONF_API_KEY = "api_key"
 
-SCAN_INTERVAL = timedelta(minutes=1)
-UPDATE_INTERVAL_OBSERVATION = timedelta(minutes=1)
+SCAN_INTERVAL = timedelta(minutes=5)
+UPDATE_INTERVAL_OBSERVATION = timedelta(minutes=5)
 
 ATTR_MAP = {
     ATTR_WEATHER_HUMIDITY: "humidity",

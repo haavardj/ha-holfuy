@@ -165,10 +165,10 @@ class HolfuySensor(CoordinatorEntity[HolfuyDataUpdateCoordinator], SensorEntity)
         self._attr_unique_id = f"{self.station_name}-{description.key}".lower()
 
         self._attr_device_info = DeviceInfo(
-            entry_type=DeviceEntryType.SERVICE,
             identifiers={(DOMAIN, station_id)},  # type: ignore[arg-type]
             manufacturer=MANUFACTURER,
-            model="Holfy API",
+            model="Weather Station",
+            serial_number=self.station_id,
             name=self.station_name,
             configuration_url=f"https://holfuy.com/en/weather/{self.station_id}",
         )
