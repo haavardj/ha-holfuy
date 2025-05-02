@@ -4,7 +4,7 @@ import asyncio
 import datetime
 import logging
 
-from typing import Any, List
+from typing import Any
 
 import aiohttp
 import async_timeout
@@ -63,7 +63,9 @@ class HolfuyService:
         else:
             self._websession = websession
 
-    async def fetch_data(self, stations: list[str] | None = None):
+    async def fetch_data(
+        self, stations: list[str] | None = None
+    ) -> dict[str, Any] | None:
         """Get the latest data from Holfuy."""
 
         if stations:

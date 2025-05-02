@@ -63,8 +63,6 @@ class HolfuyDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         self.holfuy = holfuy
         self.available_station_ids: list[str] = []
 
-        # self.device_info = _get_device_info("299", name)
-
         super().__init__(
             hass,
             _LOGGER,
@@ -77,7 +75,11 @@ class HolfuyDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         """Fetch data from Holfuy."""
         try:
             async with async_timeout.timeout(10):
-                resp: dict[str, Any] = await self.holfuy.fetch_data()
+                resp: dict[str, Any] | None = await self.holfuy.fetch_data()
+
+                if not resp:
+                    return {}
+
                 val = {}
                 for entry in resp["measurements"]:
                     idx: str = entry["stationId"]
