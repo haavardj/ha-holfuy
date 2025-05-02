@@ -86,12 +86,12 @@ class HolfuyDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
                     val[idx] = {
                         "stationId": idx,
                         "Name": entry.get("stationName", idx),
-                        "RelativeHumidity": entry.get("humidity", 0),
-                        "Pressure": entry.get("pressure", 0),
-                        "Temperature": entry.get("temperature", 0),
-                        "Wind": entry["wind"].get("speed", 0),
-                        "WindGust": entry["wind"].get("gust", 0),
-                        "WindBearing": entry["wind"].get("direction", 0),
+                        "RelativeHumidity": entry.get("humidity", None),
+                        "Pressure": entry.get("pressure", None),
+                        "Temperature": entry.get("temperature", None),
+                        "Wind": entry["wind"].get("speed", None),
+                        "WindGust": entry["wind"].get("gust", None),
+                        "WindBearing": entry["wind"].get("direction", None),
                     }
 
                 self.available_station_ids = list(val.keys())
