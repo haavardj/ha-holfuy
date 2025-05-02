@@ -2,6 +2,7 @@
 
 from __future__ import annotations  # noqa: I001
 
+import logging
 from typing import Any
 
 import voluptuous as vol
@@ -21,6 +22,8 @@ from .const import (
     CONF_API_KEY,
     DOMAIN,
 )
+
+_LOGGER = logging.getLogger(__name__)
 
 
 @callback
@@ -66,7 +69,7 @@ class HolfuyConfigFlowHandler(ConfigFlow, domain=DOMAIN):
                     title=f"Holfy API ({user_input[CONF_API_KEY][0:4]})",
                     data=user_input,
                 )
-            errors[CONF_NAME] = "already_configured"
+            errors[CONF_STATION_ID] = "already_configured"
 
         return self.async_show_form(
             step_id="user",
