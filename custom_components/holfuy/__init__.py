@@ -3,7 +3,7 @@
 from __future__ import annotations  # noqa: I001
 
 import logging
-from .pyholfuy import HolfuyService
+from holfuy import HolfuyService
 from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import device_registry as dr
