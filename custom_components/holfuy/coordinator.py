@@ -2,17 +2,14 @@
 
 from __future__ import annotations  # noqa: I001
 
-from asyncio import timeout
 from dataclasses import dataclass
 from datetime import timedelta
 import logging
-from typing import TYPE_CHECKING, Any, Self
+from typing import Any
 
 import async_timeout
 
-from homeassistant.helpers.device_registry import DeviceEntryType, DeviceInfo
-
-from .pyholfuy import HolfuyService
+from holfuy import HolfuyService
 
 from homeassistant.config_entries import ConfigEntry
 
@@ -20,13 +17,7 @@ from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
-
-from .const import DOMAIN, MANUFACTURER
-
-# Dedicated Home Assistant endpoint - do not change!
-
-URL = "http://api.holfuy.com/live/"
-
+from .const import DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
 
