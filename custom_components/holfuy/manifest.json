@@ -9,5 +9,5 @@
   "issue_tracker": "https://github.com/haavardj/ha-holfuy/issues",
   "loggers": ["holfuy"],
   "requirements": ["pyholfuy==0.1.0"],
-  "version": "0.1.0"
+  "version": "0.2.0"
 }
