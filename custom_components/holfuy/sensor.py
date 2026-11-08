@@ -164,7 +164,7 @@ class HolfuySensor(CoordinatorEntity[HolfuyDataUpdateCoordinator], SensorEntity)
         self._attr_unique_id = f"{self.station_name}-{description.key}".lower()
 
         self._attr_device_info = DeviceInfo(
-            identifiers={(DOMAIN, station_id)},  # type: ignore[arg-type]
+            identifiers={(DOMAIN, station_id)},
             manufacturer=MANUFACTURER,
             model="Weather Station",
             serial_number=self.station_id,

@@ -45,6 +45,8 @@ async def async_setup_entry(
 
     await coordinator.async_config_entry_first_refresh()
 
+    _migrate_device_identifiers(hass, config_entry)
+
     config_entry.runtime_data = HolfuyWeatherData(coordinator=coordinator)
     await hass.config_entries.async_forward_entry_setups(config_entry, PLATFORMS)
 
@@ -65,6 +67,32 @@ async def async_update_entry(
 ):
     """Reload Holfuy component when options changed."""
     await hass.config_entries.async_reload(config_entry.entry_id)
+
+
+def _migrate_device_identifiers(
+    hass: HomeAssistant, config_entry: HolfuyWeatherConfigEntry
+) -> None:
+    """Convert int station IDs in device identifiers to str.
+
+    Up to 0.2.0 the integration used the API's int station IDs, so devices were
+    registered as ("holfuy", 142). Without this, the str IDs now used would
+    create a second device for every station.
+    """
+    device_reg = dr.async_get(hass)
+    for device in dr.async_entries_for_config_entry(device_reg, config_entry.entry_id):
+        new_identifiers = {
+            (domain, str(identifier)) if domain == DOMAIN else (domain, identifier)
+            for domain, identifier in device.identifiers
+        }
+        if new_identifiers != device.identifiers:
+            _LOGGER.debug("Migrating identifiers of device %s", device.name)
+            device_reg.async_update_device(
+                device.id,
+                new_identifiers=new_identifiers,
+                serial_number=next(
+                    (i for d, i in new_identifiers if d == DOMAIN), device.serial_number
+                ),
+            )
 
 
 async def cleanup_old_device(hass: HomeAssistant) -> None:

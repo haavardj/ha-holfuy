@@ -78,7 +78,8 @@ class HolfuyDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
         val = {}
         for entry in resp["measurements"]:
-            idx: str = entry["stationId"]
+            # The API sends station IDs as int; HA identifiers must be str.
+            idx = str(entry["stationId"])
             if "error" in entry:
                 # e.g. errorCode "no_access": the entry has no readings.
                 _LOGGER.debug(
