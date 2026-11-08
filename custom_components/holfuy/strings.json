@@ -2,28 +2,45 @@
   "config": {
     "step": {
       "user": {
-        "title": "[%key:common::config_flow::data::location%]",
-        "description": "Holfuy",
+        "title": "Holfuy",
+        "description": "Enter the API key you received from Holfuy. All stations linked to the key are added.",
         "data": {
-          "name": "[%key:common::config_flow::data::name%]"
+          "api_key": "API key"
+        },
+        "data_description": {
+          "api_key": "Request a key at https://api.holfuy.com/live/."
         }
       }
-    },
-    "error": {
-      "already_configured": "[%key:common::config_flow::abort::already_configured_service%]"
     },
     "abort": {
-      "no_home": "No home coordinates are set in the Home Assistant configuration"
+      "already_configured": "This API key is already configured."
     }
   },
-  "options": {
-    "step": {
-      "init": {
-        "title": "[%key:common::config_flow::data::location%]",
-        "data": {
-          "name": "[%key:common::config_flow::data::name%]"
-        }
+  "entity": {
+    "sensor": {
+      "humidity": {
+        "name": "Humidity"
+      },
+      "pressure": {
+        "name": "Pressure"
+      },
+      "temperature": {
+        "name": "Temperature"
+      },
+      "wind_speed": {
+        "name": "Wind speed"
+      },
+      "wind_gust_speed": {
+        "name": "Wind gust"
+      },
+      "wind_direction": {
+        "name": "Wind direction"
       }
+    }
+  },
+  "exceptions": {
+    "update_data_error": {
+      "message": "Error fetching data from Holfuy: {error}"
     }
   }
 }

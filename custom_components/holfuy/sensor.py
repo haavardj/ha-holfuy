@@ -95,7 +95,6 @@ SENSOR_TYPES: tuple[HolfuySensorDescription, ...] = (
     ),
     HolfuySensorDescription(
         key="WindGust",
-        name="Wind gust",
         device_class=SensorDeviceClass.WIND_SPEED,
         entity_registry_enabled_default=True,
         state_class=SensorStateClass.MEASUREMENT,

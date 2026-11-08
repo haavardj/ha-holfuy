@@ -1,0 +1,46 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Holfuy",
+        "description": "Enter the API key you received from Holfuy. All stations linked to the key are added.",
+        "data": {
+          "api_key": "API key"
+        },
+        "data_description": {
+          "api_key": "Request a key at https://api.holfuy.com/live/."
+        }
+      }
+    },
+    "abort": {
+      "already_configured": "This API key is already configured."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "humidity": {
+        "name": "Humidity"
+      },
+      "pressure": {
+        "name": "Pressure"
+      },
+      "temperature": {
+        "name": "Temperature"
+      },
+      "wind_speed": {
+        "name": "Wind speed"
+      },
+      "wind_gust_speed": {
+        "name": "Wind gust"
+      },
+      "wind_direction": {
+        "name": "Wind direction"
+      }
+    }
+  },
+  "exceptions": {
+    "update_data_error": {
+      "message": "Error fetching data from Holfuy: {error}"
+    }
+  }
+}

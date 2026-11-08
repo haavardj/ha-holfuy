@@ -1,0 +1,46 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Holfuy",
+        "description": "Skriv inn API-nøkkelen du har fått fra Holfuy. Alle stasjoner knyttet til nøkkelen blir lagt til.",
+        "data": {
+          "api_key": "API-nøkkel"
+        },
+        "data_description": {
+          "api_key": "Be om en nøkkel på https://api.holfuy.com/live/."
+        }
+      }
+    },
+    "abort": {
+      "already_configured": "Denne API-nøkkelen er allerede lagt til."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "humidity": {
+        "name": "Luftfuktighet"
+      },
+      "pressure": {
+        "name": "Lufttrykk"
+      },
+      "temperature": {
+        "name": "Temperatur"
+      },
+      "wind_speed": {
+        "name": "Vindhastighet"
+      },
+      "wind_gust_speed": {
+        "name": "Vindkast"
+      },
+      "wind_direction": {
+        "name": "Vindretning"
+      }
+    }
+  },
+  "exceptions": {
+    "update_data_error": {
+      "message": "Kunne ikke hente data fra Holfuy: {error}"
+    }
+  }
+}
