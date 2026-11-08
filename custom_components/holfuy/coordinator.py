@@ -79,15 +79,25 @@ class HolfuyDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         val = {}
         for entry in resp["measurements"]:
             idx: str = entry["stationId"]
+            if "error" in entry:
+                # e.g. errorCode "no_access": the entry has no readings.
+                _LOGGER.debug(
+                    "Skipping station %s: %s",
+                    idx,
+                    entry.get("errorCode", entry["error"]),
+                )
+                continue
+
+            wind: dict[str, Any] = entry.get("wind") or {}
             val[idx] = {
                 "stationId": idx,
                 "Name": entry.get("stationName", idx),
                 "RelativeHumidity": entry.get("humidity", None),
                 "Pressure": entry.get("pressure", None),
                 "Temperature": entry.get("temperature", None),
-                "Wind": entry["wind"].get("speed", None),
-                "WindGust": entry["wind"].get("gust", None),
-                "WindBearing": entry["wind"].get("direction", None),
+                "Wind": wind.get("speed"),
+                "WindGust": wind.get("gust"),
+                "WindBearing": wind.get("direction"),
             }
 
         self.available_station_ids = list(val.keys())
