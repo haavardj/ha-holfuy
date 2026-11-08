@@ -2,5 +2,5 @@
     "name": "Holfuy",
     "render_readme": true,
     "hide_default_branch": true,
-    "homeassistant": "2025.3.2"
+    "homeassistant": "2025.4.0"
 }
