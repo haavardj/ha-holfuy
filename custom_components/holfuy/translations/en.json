@@ -12,6 +12,11 @@
         }
       }
     },
+    "error": {
+      "cannot_connect": "Could not reach the Holfuy API. Try again later.",
+      "invalid_auth": "Holfuy rejected the API key, or the key has no access to any station.",
+      "unknown": "Unexpected reply from the Holfuy API."
+    },
     "abort": {
       "already_configured": "This API key is already configured."
     }

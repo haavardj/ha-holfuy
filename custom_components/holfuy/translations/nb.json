@@ -12,6 +12,11 @@
         }
       }
     },
+    "error": {
+      "cannot_connect": "Fikk ikke kontakt med Holfuy-API-et. Prøv igjen senere.",
+      "invalid_auth": "Holfuy avviste API-nøkkelen, eller nøkkelen har ikke tilgang til noen stasjoner.",
+      "unknown": "Uventet svar fra Holfuy-API-et."
+    },
     "abort": {
       "already_configured": "Denne API-nøkkelen er allerede lagt til."
     }
