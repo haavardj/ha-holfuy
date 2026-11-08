@@ -161,7 +161,8 @@ class HolfuySensor(CoordinatorEntity[HolfuyDataUpdateCoordinator], SensorEntity)
             coordinator.data, station_id, description.key
         )
 
-        self._attr_unique_id = f"{self.station_name}-{description.key}".lower()
+        # Keep in sync with _migrate_unique_ids() in __init__.py.
+        self._attr_unique_id = f"{station_id}-{description.key}".lower()
 
         self._attr_device_info = DeviceInfo(
             identifiers={(DOMAIN, station_id)},

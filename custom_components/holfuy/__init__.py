@@ -3,10 +3,11 @@
 from __future__ import annotations  # noqa: I001
 
 import logging
+from typing import Any
 from holfuy import HolfuyService
 from homeassistant.const import Platform
-from homeassistant.core import HomeAssistant
-from homeassistant.helpers import device_registry as dr
+from homeassistant.core import HomeAssistant, callback
+from homeassistant.helpers import device_registry as dr, entity_registry as er
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .const import (
@@ -46,6 +47,7 @@ async def async_setup_entry(
     await coordinator.async_config_entry_first_refresh()
 
     _migrate_device_identifiers(hass, config_entry)
+    await _migrate_unique_ids(hass, config_entry, coordinator)
 
     config_entry.runtime_data = HolfuyWeatherData(coordinator=coordinator)
     await hass.config_entries.async_forward_entry_setups(config_entry, PLATFORMS)
@@ -93,6 +95,42 @@ def _migrate_device_identifiers(
                     (i for d, i in new_identifiers if d == DOMAIN), device.serial_number
                 ),
             )
+
+
+async def _migrate_unique_ids(
+    hass: HomeAssistant,
+    config_entry: HolfuyWeatherConfigEntry,
+    coordinator: HolfuyDataUpdateCoordinator,
+) -> None:
+    """Change unique IDs from "<station name>-<key>" to "<station id>-<key>".
+
+    Up to 0.2.0 the unique ID was built from the station name, so renaming a
+    station on Holfuy created new entities. Entities of a station that was
+    renamed before this migration ran cannot be matched and are left as is.
+    """
+    station_ids = {
+        str(station["Name"]).lower(): station_id
+        for station_id, station in coordinator.data.items()
+    }
+    ent_reg = er.async_get(hass)
+
+    @callback
+    def _migrate(entity_entry: er.RegistryEntry) -> dict[str, Any] | None:
+        name, sep, key = entity_entry.unique_id.rpartition("-")
+        if not sep or name not in station_ids:
+            return None
+        new_unique_id = f"{station_ids[name]}-{key}"
+        if ent_reg.async_get_entity_id(entity_entry.domain, DOMAIN, new_unique_id):
+            _LOGGER.warning(
+                "Cannot migrate %s: unique ID %s is already in use",
+                entity_entry.entity_id,
+                new_unique_id,
+            )
+            return None
+        _LOGGER.debug("Migrating unique ID of %s", entity_entry.entity_id)
+        return {"new_unique_id": new_unique_id}
+
+    await er.async_migrate_entries(hass, config_entry.entry_id, _migrate)
 
 
 async def cleanup_old_device(hass: HomeAssistant) -> None:
