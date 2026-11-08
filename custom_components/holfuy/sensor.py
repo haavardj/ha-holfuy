@@ -200,4 +200,6 @@ class HolfuySensor(CoordinatorEntity[HolfuyDataUpdateCoordinator], SensorEntity)
     ) -> Any:
         """Get sensor data."""
 
-        return sensors[station_id][kind]
+        if not sensors:
+            return None
+        return sensors.get(station_id, {}).get(kind)
