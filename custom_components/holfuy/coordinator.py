@@ -9,7 +9,7 @@ from typing import Any
 
 import async_timeout
 
-from holfuy import HolfuyService
+from holfuy import HolfuyError, HolfuyService
 
 from homeassistant.config_entries import ConfigEntry
 
@@ -64,37 +64,34 @@ class HolfuyDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     async def _async_update_data(self) -> dict[str, Any]:
         """Fetch data from Holfuy."""
+        # Raise on every failure: returning {} instead would let the first refresh
+        # "succeed" with no stations, so no entities would ever be created.
         try:
             async with async_timeout.timeout(10):
-                resp: dict[str, Any] | None = await self.holfuy.fetch_data()
-
-                if not resp:
-                    return {}
-
-                val = {}
-                for entry in resp["measurements"]:
-                    idx: str = entry["stationId"]
-                    val[idx] = {
-                        "stationId": idx,
-                        "Name": entry.get("stationName", idx),
-                        "RelativeHumidity": entry.get("humidity", None),
-                        "Pressure": entry.get("pressure", None),
-                        "Temperature": entry.get("temperature", None),
-                        "Wind": entry["wind"].get("speed", None),
-                        "WindGust": entry["wind"].get("gust", None),
-                        "WindBearing": entry["wind"].get("direction", None),
-                    }
-
-                self.available_station_ids = list(val.keys())
-                return val
-
-        except Exception as error:
-            _LOGGER.error(error)
+                resp: dict[str, Any] = await self.holfuy.fetch_data()
+        except (HolfuyError, TimeoutError) as error:
             raise UpdateFailed(
                 translation_domain=DOMAIN,
                 translation_key="update_data_error",
-                translation_placeholders={"error": repr(error)},
+                translation_placeholders={"error": str(error) or repr(error)},
             ) from error
+
+        val = {}
+        for entry in resp["measurements"]:
+            idx: str = entry["stationId"]
+            val[idx] = {
+                "stationId": idx,
+                "Name": entry.get("stationName", idx),
+                "RelativeHumidity": entry.get("humidity", None),
+                "Pressure": entry.get("pressure", None),
+                "Temperature": entry.get("temperature", None),
+                "Wind": entry["wind"].get("speed", None),
+                "WindGust": entry["wind"].get("gust", None),
+                "WindBearing": entry["wind"].get("direction", None),
+            }
+
+        self.available_station_ids = list(val.keys())
+        return val
 
     def get_station_name(self, station_id: str) -> str:
         """Return the name of a station."""
