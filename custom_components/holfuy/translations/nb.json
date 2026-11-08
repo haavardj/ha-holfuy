@@ -8,7 +8,7 @@
           "api_key": "API-nøkkel"
         },
         "data_description": {
-          "api_key": "Be om en nøkkel på https://api.holfuy.com/live/."
+          "api_key": "Be om en nøkkel på {api_url}."
         }
       }
     },

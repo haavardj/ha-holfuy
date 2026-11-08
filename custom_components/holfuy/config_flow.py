@@ -17,6 +17,9 @@ _LOGGER = logging.getLogger(__name__)
 
 DATA_SCHEMA = vol.Schema({vol.Required(CONF_API_KEY): str})
 
+# Passed as a placeholder: hassfest rejects URLs inside translation strings.
+API_URL = "https://api.holfuy.com/live/"
+
 
 class HolfuyConfigFlowHandler(ConfigFlow, domain=DOMAIN):
     """Config flow for Holfuy component."""
@@ -54,4 +57,5 @@ class HolfuyConfigFlowHandler(ConfigFlow, domain=DOMAIN):
             step_id="user",
             data_schema=self.add_suggested_values_to_schema(DATA_SCHEMA, user_input),
             errors=errors,
+            description_placeholders={"api_url": API_URL},
         )
